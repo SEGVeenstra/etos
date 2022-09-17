@@ -61,7 +61,9 @@ class MyHomePage extends StatelessWidget {
             const Text(
               'You have pushed the button this many times:',
             ),
+            // We can use a Streambuilder to react to state changes
             StreamBuilder<int>(
+                // Use the state [Stream]
                 stream: etos.state,
                 builder: (context, snapshot) {
                   return Text(
@@ -76,6 +78,7 @@ class MyHomePage extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           FloatingActionButton(
+            // Dispatch events via your global [Etos] instance
             onPressed: () => etos.dispatch(IncrementEvent()),
             tooltip: 'Increment',
             child: const Icon(Icons.add),
