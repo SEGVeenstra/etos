@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/etos/melos_etos.iml" filepath="$PROJECT_DIR$/etos/melos_etos.iml" />
+      <module fileurl="file://$PROJECT_DIR$/etos_flutter/melos_etos_flutter.iml" filepath="$PROJECT_DIR$/etos_flutter/melos_etos_flutter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/melos_etos.iml" filepath="$PROJECT_DIR$/melos_etos.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,4 +1,4 @@
-import 'package:etos/etos.dart';
+import 'package:etos_flutter/etos_flutter.dart';
 import 'package:flutter/material.dart';
 
 // Define the events
@@ -61,16 +61,14 @@ class MyHomePage extends StatelessWidget {
             const Text(
               'You have pushed the button this many times:',
             ),
-            // We can use a Streambuilder to react to state changes
-            StreamBuilder<int>(
-                // Use the state [Stream]
-                stream: etos.state,
-                builder: (context, snapshot) {
-                  return Text(
-                    '${snapshot.data}',
-                    style: Theme.of(context).textTheme.headline4,
-                  );
-                }),
+            // We can use an EtosBuilder to listen to changes
+            EtosBuilder<int>(
+              etos: etos,
+              builder: (context, state) => Text(
+                '$state',
+                style: Theme.of(context).textTheme.headline4,
+              ),
+            ),
           ],
         ),
       ),

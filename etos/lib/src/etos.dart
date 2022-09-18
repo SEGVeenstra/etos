@@ -16,19 +16,23 @@ class Etos<Tstate extends Object> {
   Stream<Tstate> get state => _state.stream;
   Stream<Object> get events => _events.stream;
 
+  Tstate get currentState => _state.value;
+
   Etos({required Tstate state}) {
     _logger.info('Creeated with initial state:\n$state');
     _state.add(state);
   }
 
-  void on<Tevent extends Object>(EtosHandler<Tstate> handler) {
+  void on<Tevent extends Object>(
+      FutureOr<Tstate> Function(Tevent event, Tstate state) handler) {
     if (_eventHandlers[Tevent] != null) {
       _logger.warning('Tried adding an EventHandler for $Tevent,'
           '\nbut an EventListener has already been registered for $Tevent');
       return;
     }
 
-    _eventHandlers[Tevent] = handler;
+    _eventHandlers[Tevent] =
+        (event, state) async => await handler(event as Tevent, state);
     _logger.info('Eventhandler added for $Tevent');
   }
 

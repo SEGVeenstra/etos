@@ -2,3 +2,8 @@ name: etos
 
 packages:
   - etos
+  - etos_flutter
+
+command:
+  bootstrap:
+    usePubspecOverrides: true
