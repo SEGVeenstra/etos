@@ -29,15 +29,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: EtosBuilder(
-        etos: etos,
-        builder: (context, state) =>
-            state.userState == null ? const LoginPage() : const TodosPage(),
+    return EtosProvider<AppState>(
+      etos: etos,
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: EtosBuilder(
+          etos: etos,
+          builder: (context, state) =>
+              state.userState == null ? const LoginPage() : const TodosPage(),
+        ),
       ),
     );
   }

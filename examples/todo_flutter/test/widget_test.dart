@@ -7,24 +7,31 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:todo_flutter/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('Login and Logout test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Verify that we start on the login page
+    expect(find.text('Login'), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
+    // Tap the login button
+    await tester.tap(find.byKey(const ValueKey('login_button')));
     await tester.pump();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Verify that we no longer have a login button
+    expect(find.text('Login'), findsNothing);
+
+    // Verify that there is a logout button
+    expect(find.widgetWithIcon(IconButton, Icons.logout), findsOneWidget);
+
+    // Tap the logout button
+    await tester.tap(find.byKey(const ValueKey('logout_button')));
+    await tester.pump();
+
+    // Verify that we returned to the login page
+    expect(find.text('Login'), findsOneWidget);
   });
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:todo_flutter/events/login_event.dart';
 import 'package:todo_flutter/main.dart';
 
@@ -12,6 +11,7 @@ class LoginPage extends StatelessWidget {
       appBar: AppBar(title: const Text('LoginPage')),
       body: Center(
         child: ElevatedButton(
+          key: const ValueKey('login_button'),
           onPressed: _onPressed,
           child: const Text('Login'),
         ),
@@ -20,6 +20,6 @@ class LoginPage extends StatelessWidget {
   }
 
   void _onPressed() {
-    etos.dispatch(LoginEvent('Stephan'));
+    etos.dispatch(const LoginEvent('Stephan'));
   }
 }

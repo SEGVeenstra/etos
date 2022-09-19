@@ -15,6 +15,7 @@ class TodosPage extends StatelessWidget {
         title: const Text('Todos'),
         actions: [
           IconButton(
+            key: const ValueKey('logout_button'),
             onPressed: () => etos.dispatch(LogoutEvent()),
             icon: const Icon(
               Icons.logout,
