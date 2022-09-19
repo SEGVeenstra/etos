@@ -10,7 +10,7 @@ import 'package:todo_flutter/pages/login_page.dart';
 import 'package:todo_flutter/pages/todos_page.dart';
 import 'package:todo_flutter/state/app_state.dart';
 
-final etos = Etos(
+final _etos = Etos(
   state: const AppState(
     userState: null,
     todosState: null,
@@ -30,14 +30,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return EtosProvider<AppState>(
-      etos: etos,
+      etos: _etos,
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: EtosBuilder(
-          etos: etos,
+        home: EtosBuilder<AppState>(
           builder: (context, state) =>
               state.userState == null ? const LoginPage() : const TodosPage(),
         ),

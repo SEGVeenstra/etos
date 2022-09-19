@@ -17,14 +17,26 @@ class EtosProvider<Tstate extends Object> extends InheritedWidget {
     return oldWidget.etos != etos;
   }
 
-  Etos<Tstate> of(BuildContext context) {
-    final provider =
-        context.dependOnInheritedWidgetOfExactType<EtosProvider<Tstate>>();
+  static Etos<T> of<T extends Object>(BuildContext context,
+      {bool listen = true}) {
+    final EtosProvider<T>? provider;
+
+    if (listen) {
+      provider = context.dependOnInheritedWidgetOfExactType<EtosProvider<T>>();
+    } else {
+      provider = context.findAncestorWidgetOfExactType<EtosProvider<T>>();
+    }
 
     if (provider == null) {
-      throw 'An EtosProvider for $Tstate has not been found!';
+      throw 'An EtosProvider for $T has not been found!';
     }
 
     return provider.etos;
+  }
+}
+
+extension EtosProviderExt on BuildContext {
+  Etos<T> etos<T extends Object>() {
+    return EtosProvider.of<T>(this);
   }
 }

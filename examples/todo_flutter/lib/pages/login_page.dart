@@ -1,6 +1,7 @@
+import 'package:etos_flutter/etos_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_flutter/events/login_event.dart';
-import 'package:todo_flutter/main.dart';
+import 'package:todo_flutter/state/app_state.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -12,14 +13,14 @@ class LoginPage extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           key: const ValueKey('login_button'),
-          onPressed: _onPressed,
+          onPressed: () => _onPressed(context),
           child: const Text('Login'),
         ),
       ),
     );
   }
 
-  void _onPressed() {
-    etos.dispatch(const LoginEvent('Stephan'));
+  void _onPressed(BuildContext context) {
+    context.etos<AppState>().dispatch(const LoginEvent('Stephan'));
   }
 }
