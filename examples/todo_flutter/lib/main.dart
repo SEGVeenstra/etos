@@ -9,10 +9,11 @@ import 'package:todo_flutter/events/logout_event.dart';
 import 'package:todo_flutter/pages/login_page.dart';
 import 'package:todo_flutter/pages/todos_page.dart';
 import 'package:todo_flutter/state/app_state.dart';
+import 'package:todo_flutter/state/user_state.dart';
 
 final etos = Etos(
-  state: const AppState(
-    userState: null,
+  state: AppState(
+    userState: LoggedOut(),
     todosState: null,
   ),
 )
@@ -36,8 +37,9 @@ class MyApp extends StatelessWidget {
       ),
       home: EtosBuilder<AppState>(
         etos: etos,
-        builder: (context, state) =>
-            state.userState == null ? const LoginPage() : const TodosPage(),
+        builder: (context, state) => state.userState is! LoggedIn
+            ? const LoginPage()
+            : const TodosPage(),
       ),
     );
   }

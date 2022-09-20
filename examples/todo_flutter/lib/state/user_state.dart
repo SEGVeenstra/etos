@@ -1,14 +1,19 @@
 import 'package:equatable/equatable.dart';
 
-class UserState extends Equatable {
+abstract class UserState extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
+
+class LoggedIn extends UserState {
   final String name;
 
-  const UserState({
-    required this.name,
-  });
+  LoggedIn({required this.name});
 
   @override
-  List<Object?> get props => [
-        name,
-      ];
+  List<Object?> get props => [name];
 }
+
+class LoggedOut extends UserState {}
+
+class LoggingIn extends UserState {}

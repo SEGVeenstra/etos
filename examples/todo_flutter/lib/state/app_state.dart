@@ -3,7 +3,7 @@ import 'package:todo_flutter/state/todos_state.dart';
 import 'package:todo_flutter/state/user_state.dart';
 
 class AppState extends Equatable {
-  final UserState? userState;
+  final UserState userState;
   final TodosState? todosState;
 
   const AppState({
@@ -21,11 +21,10 @@ class AppState extends Equatable {
       );
 
   AppState copyWithNull({
-    bool? userState,
     bool? todosState,
   }) =>
       AppState(
-        userState: userState == true ? null : this.userState,
+        userState: userState,
         todosState: todosState == true ? null : this.todosState,
       );
 

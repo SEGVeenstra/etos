@@ -1,5 +1,5 @@
 import 'package:etos_flutter/etos_flutter.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide StateSetter;
 
 // Define the events
 class IncrementEvent {}
@@ -9,12 +9,13 @@ class DecrementEvent {}
 // Create [EventHandlers]
 
 // can be a function:
-int increment(Object event, int state) => state + 1;
+void increment(Object event, StateGetter<int> get, StateSetter<int> set) =>
+    set(get() + 1);
 
 // or even a class:
 class DecrementHandler {
-  int call(_, int state) {
-    return state - 1;
+  void call(_, StateGetter<int> get, StateSetter<int> set) {
+    return set(get() - 1);
   }
 }
 

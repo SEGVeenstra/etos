@@ -5,18 +5,27 @@ import 'package:rxdart/subjects.dart';
 
 final _logger = Logger('Etos');
 
-typedef EtosHandler<Tstate extends Object> = FutureOr<Tstate> Function(
-    Object event, Tstate state);
+typedef EtosHandler<Tstate extends Object> = FutureOr<void> Function(
+  Object event,
+  StateGetter get,
+  StateSetter set,
+);
+
+typedef StateGetter<T> = T Function();
+typedef StateSetter<T> = void Function(T newState);
 
 class Etos<Tstate extends Object> {
   final _eventHandlers = <Type, EtosHandler<Tstate>>{};
   final _state = BehaviorSubject<Tstate>();
   final _events = StreamController<Object>();
 
-  Stream<Tstate> get state => _state.stream;
+  /// A stream with the states
+  ///
+  /// On listening will give you the current state
+  Stream<Tstate> get stream => _state.stream;
   Stream<Object> get events => _events.stream;
 
-  Tstate get currentState => _state.value;
+  Tstate get state => _state.value;
 
   Etos({required Tstate state}) {
     _logger.info('Creeated with initial state:\n$state');
@@ -24,15 +33,20 @@ class Etos<Tstate extends Object> {
   }
 
   void on<Tevent extends Object>(
-      FutureOr<Tstate> Function(Tevent event, Tstate state) handler) {
+      FutureOr<void> Function(
+    Tevent event,
+    StateGetter<Tstate> get,
+    StateSetter<Tstate> set,
+  )
+          handler) {
     if (_eventHandlers[Tevent] != null) {
       _logger.warning('Tried adding an EventHandler for $Tevent,'
           '\nbut an EventListener has already been registered for $Tevent');
       return;
     }
 
-    _eventHandlers[Tevent] =
-        (event, state) async => await handler(event as Tevent, state);
+    _eventHandlers[Tevent] = (event, get, set) =>
+        handler(event as Tevent, get as StateGetter<Tstate>, set);
     _logger.info('Eventhandler added for $Tevent');
   }
 
@@ -46,9 +60,14 @@ class Etos<Tstate extends Object> {
       throw 'No handler found for events of type ${event.runtimeType}!';
     }
 
-    final currentState = _state.value;
-    final newState = await handler.call(event, currentState);
+    await handler.call(
+      event,
+      () => state,
+      _setState,
+    );
+  }
 
+  void _setState(newState) {
     _state.add(newState);
     _logger.info('state updated\n$newState');
   }

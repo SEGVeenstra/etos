@@ -7,33 +7,61 @@ Future<void> main() async {
 
   setUp(() {
     etos = Etos<int>(state: 0)
-      ..on<IncrementEvent>((event, state) async {
-        await Future.delayed(Duration(seconds: 1));
-        return etos.currentState + 1;
+      ..on<IncrementEvent>((event, getter, setter) async {
+        Future.delayed(Duration(seconds: 1));
+        setter(getter() + 1);
       })
-      ..on<AddEvent>((event, state) => state + event.number);
+      ..on<AddEvent>(AddHandler())
+      ..on<DecrementEvent>(
+        (event, stateGetter, stateSetter) {
+          stateSetter(stateGetter() - 1);
+        },
+      );
   });
 
   test('simple test', () {
-    expect(etos.currentState, 0);
+    expect(etos.state, 0);
 
-    expect(etos.state, emitsInOrder([0, 1]));
+    expect(etos.stream, emitsInOrder([0, 1]));
 
     etos.dispatch(IncrementEvent());
   });
 
   test('async test', () {
-    expect(etos.currentState, 0);
+    expect(etos.state, 0);
 
-    expect(etos.state, emitsInOrder([0, 5, 6, 7]));
+    expect(etos.stream, emitsInOrder([0, 1, 2, 3, 4, 5]));
 
-    etos.dispatch(IncrementEvent());
     etos.dispatch(AddEvent(5));
-    etos.dispatch(IncrementEvent());
+  });
+
+  test('mixed test', () async {
+    expect(etos.state, 0);
+
+    expect(etos.stream, emitsInOrder([0, 1, 2, 1, 2, 3, 4]));
+
+    etos.dispatch(AddEvent(5));
+
+    await Future.delayed(Duration(milliseconds: 250));
+
+    etos.dispatch(DecrementEvent());
   });
 }
 
+class AddHandler {
+  Future<void> call(
+      AddEvent event, StateGetter<int> get, StateSetter<int> set) async {
+    for (var i = 0; i < event.number; i++) {
+      await Future.delayed(Duration(milliseconds: 100));
+      final newState = get() + 1;
+      set(newState);
+    }
+  }
+}
+
 class IncrementEvent {}
+
+class DecrementEvent {}
 
 class AddEvent {
   final int number;

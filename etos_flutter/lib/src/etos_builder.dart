@@ -27,8 +27,8 @@ class _EtosBuilderState<T extends Object> extends State<EtosBuilder<T>> {
   void initState() {
     super.initState();
 
-    state = widget.etos.currentState;
-    _streamSubscription = widget.etos.state.listen(
+    state = widget.etos.state;
+    _streamSubscription = widget.etos.stream.listen(
       (event) => setState(
         () => state = event,
       ),

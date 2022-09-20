@@ -1,5 +1,8 @@
+import 'package:etos_flutter/etos_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_flutter/events/login_event.dart';
+import 'package:todo_flutter/events/logout_event.dart';
+import 'package:todo_flutter/state/user_state.dart';
 
 import '../main.dart';
 
@@ -11,11 +14,26 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('LoginPage')),
       body: Center(
-        child: ElevatedButton(
-          key: const ValueKey('login_button'),
-          onPressed: () => _onPressed(context),
-          child: const Text('Login'),
-        ),
+        child: EtosBuilder(
+            etos: etos,
+            builder: (context, state) {
+              if (state.userState is LoggingIn) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const CircularProgressIndicator(),
+                    TextButton(
+                        onPressed: () => etos.dispatch(LogoutEvent()),
+                        child: const Text('Cancel logout')),
+                  ],
+                );
+              }
+              return ElevatedButton(
+                key: const ValueKey('login_button'),
+                onPressed: () => _onPressed(context),
+                child: const Text('Login'),
+              );
+            }),
       ),
     );
   }
