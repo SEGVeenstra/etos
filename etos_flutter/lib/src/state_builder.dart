@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../etos_flutter.dart';
 
-class EtosBuilder<Tstate extends Object, Tvalue extends Object>
+class StateBuilder<Tstate extends Object, Tvalue extends Object>
     extends StatelessWidget {
-  const EtosBuilder({
+  const StateBuilder({
     this.etos,
     required this.builder,
     required this.converter,
@@ -13,7 +13,7 @@ class EtosBuilder<Tstate extends Object, Tvalue extends Object>
 
   final Etos<Tstate>? etos;
   final Widget Function(BuildContext context, Tvalue value) builder;
-  final Tvalue Function(Tstate state) converter;
+  final Converter<Tstate, Tvalue> converter;
 
   @override
   Widget build(BuildContext context) {

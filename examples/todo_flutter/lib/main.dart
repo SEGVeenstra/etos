@@ -1,5 +1,6 @@
 import 'package:etos_flutter/etos_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 import 'package:todo_flutter/event_handlers/add_todo_event_handler.dart';
 import 'package:todo_flutter/event_handlers/login_handler.dart';
 import 'package:todo_flutter/event_handlers/logout_handler.dart';
@@ -22,6 +23,10 @@ final etos = Etos(
   ..on<AddTodoEvent>(AddTodoEventHandler());
 
 void main() {
+  Logger.root.onRecord.listen((event) {
+    debugPrint(event.toString());
+  });
+
   runApp(const MyApp());
 }
 
@@ -30,16 +35,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: EtosBuilder<AppState, bool>(
-        etos: etos,
-        converter: (state) => state.userState is LoggedIn,
-        builder: (context, isLoggedIn) =>
-            isLoggedIn ? const TodosPage() : const LoginPage(),
+    return EtosProvider<AppState>(
+      etos: etos,
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: StateBuilder<AppState, bool>(
+          converter: (state) => state.userState is LoggedIn,
+          builder: (context, isLoggedIn) =>
+              isLoggedIn ? const TodosPage() : const LoginPage(),
+        ),
       ),
     );
   }

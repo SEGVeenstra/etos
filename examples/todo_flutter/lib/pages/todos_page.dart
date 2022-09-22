@@ -24,8 +24,7 @@ class TodosPage extends StatelessWidget {
           )
         ],
       ),
-      body: EtosBuilder<AppState, List<Todo>>(
-        etos: etos,
+      body: StateBuilder<AppState, List<Todo>>(
         converter: (state) => state.todosState?.todos ?? [],
         builder: (context, todos) => ListView(
           children: todos

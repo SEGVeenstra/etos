@@ -60,48 +60,60 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            EtosBuilder<int, String>(
-              converter: (state) => state.toString(),
-              builder: (context, value) => Text(
-                value,
-                style: Theme.of(context).textTheme.headline4,
-              ),
-            )
+    return StateListener<int, int>(
+      converter: (state) => state,
+      listener: (context, state) async {
+        if (state % 5 != 0) return;
+        return showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Reached: $state'),
+          ),
+        );
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(title),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Text('You have pushed the button this many times:'),
+              StateBuilder<int, String>(
+                converter: (state) => state.toString(),
+                builder: (context, value) => Text(
+                  value,
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+              )
+            ],
+          ),
+        ),
+        floatingActionButton: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            FloatingActionButton(
+              // Dispatch events via your global [Etos] instance
+              onPressed: () => etos.dispatch(IncrementEvent()),
+              tooltip: 'Increment',
+              child: const Icon(Icons.add),
+            ),
+            const SizedBox(height: 8),
+            FloatingActionButton(
+              // Or if you are using EtosProvider you can also get it from scope.
+              // Note that you dont have to pass in a Type parameter.
+              // This is because your app should only have a single provider.
+              //
+              // EtosProvider.of returns the 'general' Etos without the StateType
+              // because it's only intended to dispatch events!
+              onPressed: () =>
+                  EtosProvider.of(context).dispatch(DecrementEvent()),
+              tooltip: 'Decrement',
+              child: const Icon(Icons.remove),
+            ),
           ],
         ),
-      ),
-      floatingActionButton: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          FloatingActionButton(
-            // Dispatch events via your global [Etos] instance
-            onPressed: () => etos.dispatch(IncrementEvent()),
-            tooltip: 'Increment',
-            child: const Icon(Icons.add),
-          ),
-          const SizedBox(height: 8),
-          FloatingActionButton(
-            // Or if you are using EtosProvider you can also get it from scope.
-            // Note that you dont have to pass in a Type parameter.
-            // This is because your app should only have a single provider.
-            //
-            // EtosProvider.of returns the 'general' Etos without the StateType
-            // because it's only intended to dispatch events!
-            onPressed: () =>
-                EtosProvider.of(context).dispatch(DecrementEvent()),
-            tooltip: 'Decrement',
-            child: const Icon(Icons.remove),
-          ),
-        ],
       ),
     );
   }

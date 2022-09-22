@@ -15,8 +15,7 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('LoginPage')),
       body: Center(
-        child: EtosBuilder<AppState, bool>(
-            etos: etos,
+        child: StateBuilder<AppState, bool>(
             converter: (state) => state.userState is LoggingIn,
             builder: (context, isLoggingIn) {
               if (isLoggingIn) {
