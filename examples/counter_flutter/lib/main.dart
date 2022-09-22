@@ -91,8 +91,13 @@ class MyHomePage extends StatelessWidget {
           const SizedBox(height: 8),
           FloatingActionButton(
             // Or if you are using EtosProvider you can also get it from scope.
+            // Note that you dont have to pass in a Type parameter.
+            // This is because your app should only have a single provider.
+            //
+            // EtosProvider.of returns the 'general' Etos without the StateType
+            // because it's only intended to dispatch events!
             onPressed: () =>
-                EtosProvider.of<int>(context).dispatch(DecrementEvent()),
+                EtosProvider.of(context).dispatch(DecrementEvent()),
             tooltip: 'Decrement',
             child: const Icon(Icons.remove),
           ),

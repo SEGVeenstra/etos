@@ -5,6 +5,7 @@ import 'package:todo_flutter/events/logout_event.dart';
 import 'package:todo_flutter/state/user_state.dart';
 
 import '../main.dart';
+import '../state/app_state.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -14,10 +15,11 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('LoginPage')),
       body: Center(
-        child: EtosBuilder(
+        child: EtosBuilder<AppState, bool>(
             etos: etos,
-            builder: (context, state) {
-              if (state.userState is LoggingIn) {
+            converter: (state) => state.userState is LoggingIn,
+            builder: (context, isLoggingIn) {
+              if (isLoggingIn) {
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [

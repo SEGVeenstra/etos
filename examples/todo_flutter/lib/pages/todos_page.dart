@@ -4,6 +4,7 @@ import 'package:todo_flutter/events/add_todo_event.dart';
 import 'package:todo_flutter/events/logout_event.dart';
 import 'package:todo_flutter/main.dart';
 import 'package:todo_flutter/model/todo.dart';
+import 'package:todo_flutter/state/app_state.dart';
 
 class TodosPage extends StatelessWidget {
   const TodosPage({super.key});
@@ -23,15 +24,13 @@ class TodosPage extends StatelessWidget {
           )
         ],
       ),
-      body: EtosBuilder(
+      body: EtosBuilder<AppState, List<Todo>>(
         etos: etos,
-        builder: (context, state) => ListView(
-          children: state.todosState?.todos
-                  .map((todo) => ListTile(
-                        title: Text(todo.description),
-                      ))
-                  .toList() ??
-              [],
+        converter: (state) => state.todosState?.todos ?? [],
+        builder: (context, todos) => ListView(
+          children: todos
+              .map((todo) => ListTile(title: Text(todo.description)))
+              .toList(),
         ),
       ),
       floatingActionButton: FloatingActionButton(

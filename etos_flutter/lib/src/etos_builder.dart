@@ -17,7 +17,7 @@ class EtosBuilder<Tstate extends Object, Tvalue extends Object>
 
   @override
   Widget build(BuildContext context) {
-    final etosToUse = etos ?? EtosProvider.of<Tstate>(context);
+    final etosToUse = etos ?? EtosProvider.of(context) as Etos<Tstate>;
 
     return StreamBuilder<Tvalue>(
       stream: etosToUse.stream.map(converter),

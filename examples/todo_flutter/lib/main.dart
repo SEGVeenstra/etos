@@ -35,11 +35,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: EtosBuilder<AppState>(
+      home: EtosBuilder<AppState, bool>(
         etos: etos,
-        builder: (context, state) => state.userState is! LoggedIn
-            ? const LoginPage()
-            : const TodosPage(),
+        converter: (state) => state.userState is LoggedIn,
+        builder: (context, isLoggedIn) =>
+            isLoggedIn ? const TodosPage() : const LoginPage(),
       ),
     );
   }
