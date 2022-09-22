@@ -7,12 +7,13 @@ class IncrementEvent {}
 class DecrementEvent {}
 
 // Create [EventHandlers]
+// EventHandlers are intended to contain the business logic of your application.
 
-// can be a function:
+// An [EventHandlers] can be a function:
 void increment(Object event, StateGetter<int> get, StateSetter<int> set) =>
     set(get() + 1);
 
-// or even a class:
+// Or even class:
 class DecrementHandler {
   void call(_, StateGetter<int> get, StateSetter<int> set) {
     return set(get() - 1);
@@ -21,7 +22,7 @@ class DecrementHandler {
 
 // Create an [Etos] instance
 final etos = Etos(state: 0)
-  // Add [EventHandler]s
+  // Add the [EventHandler]s for each event
   ..on<IncrementEvent>(increment)
   ..on<DecrementEvent>(DecrementHandler());
 
@@ -34,12 +35,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    // Optionally you can wrap your application in an EtosProvider.
+    // This will make it possible to get the Etos from context using
+    // EtosProvider.of(context) and it will
+    // make the other convinient widgets like EtosBuilder find the Etos
+    // automatically as well!
+    return EtosProvider<int>(
+      etos: etos,
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const MyHomePage(title: 'Flutter Demo Home Page'),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -59,17 +68,14 @@ class MyHomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            // We can use an EtosBuilder to listen to changes
-            EtosBuilder<int>(
-              etos: etos,
-              builder: (context, state) => Text(
-                '$state',
+            const Text('You have pushed the button this many times:'),
+            EtosBuilder<int, String>(
+              converter: (state) => state.toString(),
+              builder: (context, value) => Text(
+                value,
                 style: Theme.of(context).textTheme.headline4,
               ),
-            ),
+            )
           ],
         ),
       ),
@@ -84,7 +90,9 @@ class MyHomePage extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           FloatingActionButton(
-            onPressed: () => etos.dispatch(DecrementEvent()),
+            // Or if you are using EtosProvider you can also get it from scope.
+            onPressed: () =>
+                EtosProvider.of<int>(context).dispatch(DecrementEvent()),
             tooltip: 'Decrement',
             child: const Icon(Icons.remove),
           ),

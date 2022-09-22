@@ -35,8 +35,8 @@ class Etos<Tstate extends Object> {
   void on<Tevent extends Object>(
       FutureOr<void> Function(
     Tevent event,
-    StateGetter<Tstate> get,
-    StateSetter<Tstate> set,
+    StateGetter<Tstate> getState,
+    StateSetter<Tstate> setState,
   )
           handler) {
     if (_eventHandlers[Tevent] != null) {

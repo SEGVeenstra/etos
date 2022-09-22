@@ -1,51 +1,31 @@
-import 'dart:async';
-
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
 import '../etos_flutter.dart';
 
-class EtosBuilder<T extends Object> extends StatefulWidget {
+class EtosBuilder<Tstate extends Object, Tvalue extends Object>
+    extends StatelessWidget {
   const EtosBuilder({
+    this.etos,
     required this.builder,
-    required this.etos,
+    required this.converter,
     super.key,
   });
 
-  final Etos<T> etos;
-  final Widget Function(BuildContext context, T state) builder;
-
-  @override
-  State<EtosBuilder<T>> createState() => _EtosBuilderState<T>();
-}
-
-class _EtosBuilderState<T extends Object> extends State<EtosBuilder<T>> {
-  late final StreamSubscription _streamSubscription;
-
-  late T state;
-
-  @override
-  void initState() {
-    super.initState();
-
-    state = widget.etos.state;
-    _streamSubscription = widget.etos.stream.listen(
-      (event) => setState(
-        () => state = event,
-      ),
-    );
-  }
+  final Etos<Tstate>? etos;
+  final Widget Function(BuildContext context, Tvalue value) builder;
+  final Tvalue Function(Tstate state) converter;
 
   @override
   Widget build(BuildContext context) {
-    return widget.builder(
-      context,
-      state,
-    );
-  }
+    final etosToUse = etos ?? EtosProvider.of<Tstate>(context);
 
-  @override
-  void dispose() {
-    _streamSubscription.cancel();
-    super.dispose();
+    return StreamBuilder<Tvalue>(
+      stream: etosToUse.stream.map(converter),
+      initialData: converter(etosToUse.state),
+      builder: (context, snapshot) => builder(
+        context,
+        snapshot.data!,
+      ),
+    );
   }
 }
