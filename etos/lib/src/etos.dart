@@ -22,7 +22,7 @@ class Etos<Tstate extends Object> {
   /// A stream with the states
   ///
   /// On listening will give you the current state
-  Stream<Tstate> get stream => _state.stream;
+  Stream<Tstate> get stream => _state.stream..asBroadcastStream();
   Stream<Object> get events => _events.stream.asBroadcastStream();
 
   Tstate get state => _state.value;

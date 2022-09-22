@@ -75,19 +75,27 @@ class MyHomePage extends StatelessWidget {
         appBar: AppBar(
           title: Text(title),
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text('You have pushed the button this many times:'),
-              StateBuilder<int, String>(
-                converter: (state) => state.toString(),
-                builder: (context, value) => Text(
-                  value,
-                  style: Theme.of(context).textTheme.headline4,
-                ),
-              )
-            ],
+        body: EventListener(
+          listener: (context, state) =>
+              ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Event: $state'),
+            ),
+          ),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text('You have pushed the button this many times:'),
+                StateBuilder<int, String>(
+                  converter: (state) => state.toString(),
+                  builder: (context, value) => Text(
+                    value,
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
+                )
+              ],
+            ),
           ),
         ),
         floatingActionButton: Column(
