@@ -16,20 +16,20 @@ typedef StateSetter<T> = void Function(T newState);
 
 class Etos<Tstate extends Object> {
   final _eventHandlers = <Type, EtosHandler<Tstate>>{};
-  final _state = BehaviorSubject<Tstate>();
+  final _states = BehaviorSubject<Tstate>();
   final _events = StreamController<Object>();
 
   /// A stream with the states
   ///
   /// On listening will give you the current state
-  Stream<Tstate> get stream => _state.stream..asBroadcastStream();
+  Stream<Tstate> get states => _states.stream..asBroadcastStream();
   Stream<Object> get events => _events.stream.asBroadcastStream();
 
-  Tstate get state => _state.value;
+  Tstate get state => _states.value;
 
   Etos({required Tstate state}) {
     _logger.info('Creeated with initial state:\n$state');
-    _state.add(state);
+    _states.add(state);
   }
 
   void on<Tevent extends Object>(
@@ -68,7 +68,7 @@ class Etos<Tstate extends Object> {
   }
 
   void _setState(newState) {
-    _state.add(newState);
+    _states.add(newState);
     _logger.info('state updated\n$newState');
   }
 }

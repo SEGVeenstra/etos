@@ -22,7 +22,7 @@ Future<void> main() async {
   test('simple test', () {
     expect(etos.state, 0);
 
-    expect(etos.stream, emitsInOrder([0, 1]));
+    expect(etos.states, emitsInOrder([0, 1]));
 
     etos.dispatch(IncrementEvent());
   });
@@ -30,7 +30,7 @@ Future<void> main() async {
   test('async test', () {
     expect(etos.state, 0);
 
-    expect(etos.stream, emitsInOrder([0, 1, 2, 3, 4, 5]));
+    expect(etos.states, emitsInOrder([0, 1, 2, 3, 4, 5]));
 
     etos.dispatch(AddEvent(5));
   });
@@ -38,7 +38,7 @@ Future<void> main() async {
   test('mixed test', () async {
     expect(etos.state, 0);
 
-    expect(etos.stream, emitsInOrder([0, 1, 2, 1, 2, 3, 4]));
+    expect(etos.states, emitsInOrder([0, 1, 2, 1, 2, 3, 4]));
 
     etos.dispatch(AddEvent(5));
 

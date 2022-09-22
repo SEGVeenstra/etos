@@ -35,7 +35,7 @@ class _StateListenerState<Tstate extends Object, Tvalue extends Object>
 
     final etos = (widget.etos ?? EtosProvider.of(context)) as Etos<Tstate>;
     sub?.cancel();
-    sub = etos.stream.map((event) => widget.converter(event)).listen(
+    sub = etos.states.map((event) => widget.converter(event)).listen(
           (event) => widget.listener(context, event),
         );
   }

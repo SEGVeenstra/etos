@@ -60,6 +60,8 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Use StateListeners if you want to perform an action based on a state
+    // change. Like showing a dialog!
     return StateListener<int, int>(
       converter: (state) => state,
       listener: (context, state) async {
@@ -75,6 +77,7 @@ class MyHomePage extends StatelessWidget {
         appBar: AppBar(
           title: Text(title),
         ),
+        // ... or a SnackBar
         body: EventListener(
           listener: (context, state) =>
               ScaffoldMessenger.of(context).showSnackBar(
@@ -87,6 +90,9 @@ class MyHomePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 const Text('You have pushed the button this many times:'),
+                // For building the UI you can use StateBuilders.
+                // Etos states are comming from the Etos.states so you could
+                // also use a StreamBuilder if you'd like.
                 StateBuilder<int, String>(
                   converter: (state) => state.toString(),
                   builder: (context, value) => Text(

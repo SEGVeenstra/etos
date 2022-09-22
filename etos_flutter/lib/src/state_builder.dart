@@ -20,7 +20,7 @@ class StateBuilder<Tstate extends Object, Tvalue extends Object>
     final etosToUse = etos ?? EtosProvider.of(context) as Etos<Tstate>;
 
     return StreamBuilder<Tvalue>(
-      stream: etosToUse.stream.map(converter),
+      stream: etosToUse.states.map(converter),
       initialData: converter(etosToUse.state),
       builder: (context, snapshot) => builder(
         context,

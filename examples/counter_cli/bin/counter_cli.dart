@@ -19,7 +19,7 @@ void main() {
 
   final etos = Etos<int>(state: 0);
 
-  etos.stream.listen((state) {
+  etos.states.listen((state) {
     //print(state);
   });
 
