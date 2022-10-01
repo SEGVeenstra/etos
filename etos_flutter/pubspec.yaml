@@ -11,7 +11,9 @@ dependencies:
   flutter:
     sdk: flutter
   etos:
-    path: ../etos
+    git:
+      url: git@github.com:SEGVeenstra/etos.git
+      path: etos
 
 dev_dependencies:
   flutter_test:
