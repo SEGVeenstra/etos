@@ -12,7 +12,7 @@ class StateBuilder<Tstate extends Object, Tvalue extends Object?>
   });
 
   final Etos<Tstate>? etos;
-  final Widget Function(BuildContext context, Tvalue? value) builder;
+  final Widget Function(BuildContext context, Tvalue value) builder;
   final Converter<Tstate, Tvalue> converter;
 
   @override
@@ -24,7 +24,7 @@ class StateBuilder<Tstate extends Object, Tvalue extends Object?>
       initialData: converter(etosToUse.state),
       builder: (context, snapshot) => builder(
         context,
-        snapshot.data,
+        snapshot.data as Tvalue,
       ),
     );
   }
