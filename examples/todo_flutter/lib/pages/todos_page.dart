@@ -24,10 +24,10 @@ class TodosPage extends StatelessWidget {
           )
         ],
       ),
-      body: StateBuilder<AppState, List<Todo>>(
-        converter: (state) => state.todosState?.todos ?? [],
+      body: StateBuilder<AppState, List<Todo>?>(
+        converter: (state) => state.todosState?.todos,
         builder: (context, todos) => ListView(
-          children: todos
+          children: (todos ?? [])
               .map((todo) => ListTile(title: Text(todo.description)))
               .toList(),
         ),

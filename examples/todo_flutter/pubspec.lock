@@ -53,9 +53,11 @@ packages:
   etos:
     dependency: transitive
     description:
-      path: "../../etos"
-      relative: true
-    source: path
+      path: etos
+      ref: HEAD
+      resolved-ref: a0d900f21ac23f2789fc09b388510411e6597de3
+      url: "git@github.com:SEGVeenstra/etos.git"
+    source: git
     version: "1.0.0"
   etos_flutter:
     dependency: "direct main"
