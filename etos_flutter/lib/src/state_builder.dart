@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../etos_flutter.dart';
 
-class StateBuilder<Tstate extends Object, Tvalue extends Object>
+class StateBuilder<Tstate extends Object, Tvalue extends Object?>
     extends StatelessWidget {
   const StateBuilder({
     this.etos,
@@ -24,7 +24,7 @@ class StateBuilder<Tstate extends Object, Tvalue extends Object>
       initialData: converter(etosToUse.state),
       builder: (context, snapshot) => builder(
         context,
-        snapshot.data!,
+        snapshot.data as Tvalue,
       ),
     );
   }
