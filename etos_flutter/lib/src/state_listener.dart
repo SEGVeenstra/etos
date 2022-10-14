@@ -6,7 +6,7 @@ import '../etos_flutter.dart';
 
 typedef Listener<T> = void Function(BuildContext context, T state);
 
-class StateListener<Tstate extends Object, Tvalue extends Object>
+class StateListener<Tstate extends Object, Tvalue extends Object?>
     extends StatefulWidget {
   const StateListener({
     required this.child,
@@ -25,7 +25,7 @@ class StateListener<Tstate extends Object, Tvalue extends Object>
   State<StateListener> createState() => _StateListenerState<Tstate, Tvalue>();
 }
 
-class _StateListenerState<Tstate extends Object, Tvalue extends Object>
+class _StateListenerState<Tstate extends Object, Tvalue extends Object?>
     extends State<StateListener<Tstate, Tvalue>> {
   StreamSubscription<Tvalue>? sub;
 
