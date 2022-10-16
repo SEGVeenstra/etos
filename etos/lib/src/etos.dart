@@ -5,7 +5,16 @@ import 'package:rxdart/subjects.dart';
 
 final _logger = Logger('Etos');
 
-typedef EtosHandler<Tstate extends Object> = FutureOr<void> Function(
+abstract class EventHandler<Tstate, Tevent> {
+  FutureOr<void> call(
+    Tevent event,
+    StateGetter<Tstate> getState,
+    StateSetter<Tstate> setState,
+  );
+}
+
+typedef EtosHandler<Tstate extends Object, Tevent extends Object>
+    = FutureOr<void> Function(
   Object event,
   StateGetter get,
   StateSetter set,
@@ -15,7 +24,7 @@ typedef StateGetter<T> = T Function();
 typedef StateSetter<T> = void Function(T newState);
 
 class Etos<Tstate extends Object> {
-  final _eventHandlers = <Type, EtosHandler<Tstate>>{};
+  final _eventHandlers = <Type, EtosHandler<Tstate, Object>>{};
   final _states = BehaviorSubject<Tstate>();
   final _events = StreamController<Object>();
 

@@ -14,9 +14,10 @@ void increment(Object event, StateGetter<int> get, StateSetter<int> set) =>
     set(get() + 1);
 
 // Or even class:
-class DecrementHandler {
-  void call(_, StateGetter<int> get, StateSetter<int> set) {
-    return set(get() - 1);
+class DecrementHandler extends EventHandler<int, DecrementEvent> {
+  @override
+  void call(event, StateGetter<int> getState, StateSetter<int> setState) {
+    return setState(getState() - 1);
   }
 }
 
