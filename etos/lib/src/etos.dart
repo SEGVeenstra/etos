@@ -6,6 +6,8 @@ import 'package:rxdart/subjects.dart';
 final _logger = Logger('Etos');
 
 abstract class EventHandler<Tstate, Tevent> {
+  const EventHandler();
+
   FutureOr<void> call(
     Tevent event,
     StateGetter<Tstate> getState,
