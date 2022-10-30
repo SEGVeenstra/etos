@@ -17,9 +17,9 @@ abstract class EventHandler<Tstate, Tevent> {
 
 typedef EtosHandler<Tstate extends Object, Tevent extends Object>
     = FutureOr<void> Function(
-  Object event,
-  StateGetter get,
-  StateSetter set,
+  Tevent event,
+  StateGetter<Tstate> get,
+  StateSetter<Tstate> set,
 );
 
 typedef StateGetter<T> = T Function();
@@ -43,21 +43,15 @@ class Etos<Tstate extends Object> {
     _states.add(state);
   }
 
-  void on<Tevent extends Object>(
-      FutureOr<void> Function(
-    Tevent event,
-    StateGetter<Tstate> getState,
-    StateSetter<Tstate> setState,
-  )
-          handler) {
+  void on<Tevent extends Object>(EtosHandler<Tstate, Tevent> handler) {
     if (_eventHandlers[Tevent] != null) {
       _logger.warning('Tried adding an EventHandler for $Tevent,'
           '\nbut an EventListener has already been registered for $Tevent');
       return;
     }
 
-    _eventHandlers[Tevent] = (event, get, set) =>
-        handler(event as Tevent, get as StateGetter<Tstate>, set);
+    _eventHandlers[Tevent] =
+        (event, get, set) => handler(event as Tevent, get, set);
     _logger.info('Eventhandler added for $Tevent');
   }
 

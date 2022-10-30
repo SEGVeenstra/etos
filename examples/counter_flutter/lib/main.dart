@@ -10,14 +10,16 @@ class DecrementEvent {}
 // EventHandlers are intended to contain the business logic of your application.
 
 // An [EventHandlers] can be a function:
-void increment(Object event, StateGetter<int> get, StateSetter<int> set) =>
+void increment(IncrementEvent event, StateGetter<int> get,
+        StateSetter<int> set) async =>
     set(get() + 1);
 
 // Or even class:
 class DecrementHandler extends EventHandler<int, DecrementEvent> {
   @override
-  void call(event, StateGetter<int> getState, StateSetter<int> setState) {
-    return setState(getState() - 1);
+  void call(DecrementEvent event, StateGetter<int> getState,
+      StateSetter<int> setState) {
+    setState(getState() - 1);
   }
 }
 
@@ -65,7 +67,7 @@ class MyHomePage extends StatelessWidget {
     // change. Like showing a dialog!
     return StateListener<int, int>(
       converter: (state) => state,
-      listener: (context, state) async {
+      listener: (context, oldState, state) async {
         if (state % 5 != 0) return;
         return showDialog(
           context: context,
