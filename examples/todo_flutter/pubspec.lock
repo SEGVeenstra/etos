@@ -55,7 +55,7 @@ packages:
     description:
       path: etos
       ref: HEAD
-      resolved-ref: a0d900f21ac23f2789fc09b388510411e6597de3
+      resolved-ref: "2fb14ac94ddf887f336a1a0365f15c8fc39231a4"
       url: "git@github.com:SEGVeenstra/etos.git"
     source: git
     version: "1.0.0"

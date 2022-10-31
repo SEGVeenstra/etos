@@ -25,7 +25,11 @@ class LoginHandler {
         name: event.username,
       ),
       todosState: const TodosState(todos: [
-        Todo(description: 'Example', isDone: false),
+        Todo(
+          title: 'Test',
+          description: 'Example',
+          isDone: false,
+        ),
       ]),
     );
 

@@ -4,13 +4,19 @@ import 'package:logging/logging.dart';
 import 'package:todo_flutter/event_handlers/add_todo_event_handler.dart';
 import 'package:todo_flutter/event_handlers/login_handler.dart';
 import 'package:todo_flutter/event_handlers/logout_handler.dart';
+import 'package:todo_flutter/event_handlers/unselect_todo_event_handler.dart';
 import 'package:todo_flutter/events/add_todo_event.dart';
 import 'package:todo_flutter/events/login_event.dart';
 import 'package:todo_flutter/events/logout_event.dart';
+import 'package:todo_flutter/events/select_todo_event.dart';
 import 'package:todo_flutter/pages/login_page.dart';
+import 'package:todo_flutter/pages/todo_detail_page.dart';
 import 'package:todo_flutter/pages/todos_page.dart';
 import 'package:todo_flutter/state/app_state.dart';
 import 'package:todo_flutter/state/user_state.dart';
+
+import 'event_handlers/select_todo_event_handler.dart';
+import 'events/unselect_todo_event.dart';
 
 final etos = Etos(
   state: AppState(
@@ -20,7 +26,9 @@ final etos = Etos(
 )
   ..on<LoginEvent>(LoginHandler())
   ..on<LogoutEvent>(LogoutHandler())
-  ..on<AddTodoEvent>(AddTodoEventHandler());
+  ..on<AddTodoEvent>(AddTodoEventHandler())
+  ..on<SelectTodoEvent>(SelectTodoEventHandler())
+  ..on<UnselectTodoEvent>(UnselectTodoEventHandler());
 
 void main() {
   Logger.root.onRecord.listen((event) {
@@ -42,10 +50,25 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: StateBuilder<AppState, bool>(
-          converter: (state) => state.userState is LoggedIn,
-          builder: (context, isLoggedIn) =>
-              isLoggedIn ? const TodosPage() : const LoginPage(),
+        home: StateBuilder<AppState, AppState>(
+          converter: (state) => state,
+          builder: (context, state) {
+            final isLoggedIn = state.userState is LoggedIn;
+
+            return Navigator(
+              pages: [
+                if (isLoggedIn)
+                  const MaterialPage(child: TodosPage())
+                else
+                  const MaterialPage(child: LoginPage()),
+                if (state.todosState?.selectedTodo != null)
+                  const MaterialPage(child: TodoDetailPage())
+              ],
+              onPopPage: (route, result) {
+                return false;
+              },
+            );
+          },
         ),
       ),
     );
