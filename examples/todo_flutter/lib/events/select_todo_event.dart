@@ -1,5 +1,11 @@
-class SelectTodoEvent {
-  final int id;
+import 'package:todo_flutter/model/todo.dart';
 
-  const SelectTodoEvent(this.id);
+class SelectTodoEvent {
+  final int? id;
+  final Todo? todo;
+
+  const SelectTodoEvent._(this.id, this.todo);
+
+  const SelectTodoEvent.id({this.id}) : todo = null;
+  const SelectTodoEvent.todo({this.todo}) : id = null;
 }

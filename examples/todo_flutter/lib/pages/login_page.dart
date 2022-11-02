@@ -2,7 +2,6 @@ import 'package:etos_flutter/etos_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_flutter/events/login_event.dart';
 import 'package:todo_flutter/events/logout_event.dart';
-import 'package:todo_flutter/state/user_state.dart';
 
 import '../main.dart';
 import '../state/app_state.dart';
@@ -16,7 +15,8 @@ class LoginPage extends StatelessWidget {
       appBar: AppBar(title: const Text('LoginPage')),
       body: Center(
         child: StateBuilder<AppState, bool>(
-            converter: (state) => state.userState is LoggingIn,
+            converter: (state) =>
+                state is UnauthenticatedAppState && state.isLoggingIn,
             builder: (context, isLoggingIn) {
               if (isLoggingIn) {
                 return Column(

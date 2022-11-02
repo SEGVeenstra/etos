@@ -13,16 +13,12 @@ import 'package:todo_flutter/pages/login_page.dart';
 import 'package:todo_flutter/pages/todo_detail_page.dart';
 import 'package:todo_flutter/pages/todos_page.dart';
 import 'package:todo_flutter/state/app_state.dart';
-import 'package:todo_flutter/state/user_state.dart';
 
 import 'event_handlers/select_todo_event_handler.dart';
 import 'events/unselect_todo_event.dart';
 
-final etos = Etos(
-  state: AppState(
-    userState: LoggedOut(),
-    todosState: null,
-  ),
+final etos = Etos<AppState>(
+  state: UnauthenticatedAppState(),
 )
   ..on<LoginEvent>(LoginHandler())
   ..on<LogoutEvent>(LogoutHandler())
@@ -53,7 +49,7 @@ class MyApp extends StatelessWidget {
         home: StateBuilder<AppState, AppState>(
           converter: (state) => state,
           builder: (context, state) {
-            final isLoggedIn = state.userState is LoggedIn;
+            final isLoggedIn = state is AuthenticatedState;
 
             return Navigator(
               pages: [
@@ -61,7 +57,7 @@ class MyApp extends StatelessWidget {
                   const MaterialPage(child: TodosPage())
                 else
                   const MaterialPage(child: LoginPage()),
-                if (state.todosState?.selectedTodo != null)
+                if (isLoggedIn && (state).selectedTodo != null)
                   const MaterialPage(child: TodoDetailPage())
               ],
               onPopPage: (route, result) {

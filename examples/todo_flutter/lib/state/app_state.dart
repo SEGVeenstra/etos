@@ -1,36 +1,61 @@
 import 'package:equatable/equatable.dart';
-import 'package:todo_flutter/state/todos_state.dart';
-import 'package:todo_flutter/state/user_state.dart';
 
-class AppState extends Equatable {
-  final UserState userState;
-  final TodosState? todosState;
+import '../model/todo.dart';
 
-  const AppState({
-    required this.userState,
-    required this.todosState,
+abstract class AppState extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
+
+class UnauthenticatedAppState extends AppState {
+  final bool isLoggingIn;
+
+  UnauthenticatedAppState({this.isLoggingIn = false});
+
+  @override
+  List<Object?> get props => [...super.props, isLoggingIn];
+
+  AppState copyWith({bool? isLoggingIn}) =>
+      UnauthenticatedAppState(isLoggingIn: isLoggingIn ?? this.isLoggingIn);
+}
+
+class AuthenticatedState extends AppState {
+  final String userName;
+  final bool isLoadingTodos;
+  final List<Todo> todos;
+  final Todo? selectedTodo;
+
+  AuthenticatedState({
+    required this.userName,
+    required this.todos,
+    required this.isLoadingTodos,
+    required this.selectedTodo,
   });
-
-  AppState copyWith({
-    UserState? userState,
-    TodosState? todosState,
-  }) =>
-      AppState(
-        userState: userState ?? this.userState,
-        todosState: todosState ?? this.todosState,
-      );
-
-  AppState copyWithNull({
-    bool? todosState,
-  }) =>
-      AppState(
-        userState: userState,
-        todosState: todosState == true ? null : this.todosState,
-      );
 
   @override
   List<Object?> get props => [
-        userState,
-        todosState,
+        ...super.props,
+        userName,
+        isLoadingTodos,
+        todos,
+        selectedTodo,
       ];
+
+  AppState copyWith({
+    List<Todo>? todos,
+    Todo? selectedTodo,
+  }) =>
+      AuthenticatedState(
+        userName: userName,
+        todos: todos ?? this.todos,
+        isLoadingTodos: isLoadingTodos,
+        selectedTodo: selectedTodo ?? this.selectedTodo,
+      );
+
+  AppState clearSelectedTodo() => AuthenticatedState(
+        userName: userName,
+        todos: todos,
+        isLoadingTodos: isLoadingTodos,
+        selectedTodo: null,
+      );
 }

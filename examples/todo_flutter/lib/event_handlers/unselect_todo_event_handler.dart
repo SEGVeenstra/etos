@@ -7,12 +7,11 @@ class UnselectTodoEventHandler
   @override
   void call(UnselectTodoEvent event, StateGetter<AppState> getState,
       StateSetter<AppState> setState) {
-    setState(
-      getState().copyWith(
-        todosState: getState().todosState?.copyWith(
-              clearTodo: true,
-            ),
-      ),
-    );
+    final currentState = getState();
+
+    // This action can only be done when the user is authenticated.
+    if (currentState is! AuthenticatedState) return;
+
+    setState(currentState.clearSelectedTodo());
   }
 }

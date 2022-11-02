@@ -1,38 +1,41 @@
 import 'package:etos_flutter/etos_flutter.dart';
 import 'package:todo_flutter/events/login_event.dart';
-import 'package:todo_flutter/model/todo.dart';
-import 'package:todo_flutter/state/todos_state.dart';
-import 'package:todo_flutter/state/user_state.dart';
 
 import '../state/app_state.dart';
 
 class LoginHandler {
-  void call(LoginEvent event, StateGetter<AppState> get,
-      StateSetter<AppState> set) async {
-    if (get().userState is LoggedIn) throw 'already logged in';
+  void call(LoginEvent event, StateGetter<AppState> getState,
+      StateSetter<AppState> setState) async {
+    var currentState = getState();
 
-    // set loading
-    set(get().copyWith(userState: LoggingIn()));
+    // We first check if we are in an unauthenticated state
+    if (currentState is! UnauthenticatedAppState) return;
+
+    // set state to loading
+    setState(currentState.copyWith(isLoggingIn: true));
 
     // Fake login
     await Future.delayed(const Duration(seconds: 1));
 
-    // Check if we are still logging in, if not, login has been canceled.
-    if (get().userState is! LoggingIn) return;
+    // We've passed an sync gap.
+    // This means there is a possibility that the state has changed in the
+    // meantime. So before we continue, we have to get hold of the current
+    // state.
+    currentState = getState();
 
-    final newState = get().copyWith(
-      userState: LoggedIn(
-        name: event.username,
-      ),
-      todosState: const TodosState(todos: [
-        Todo(
-          title: 'Test',
-          description: 'Example',
-          isDone: false,
-        ),
-      ]),
+    // Check if we are still logging in, if not, login has been canceled
+    // and we can abort.
+    if (currentState is! UnauthenticatedAppState ||
+        currentState.isLoggingIn == false) return;
+
+    // Everything is okay, we will set the loggedin state
+    final newState = AuthenticatedState(
+      userName: event.username,
+      todos: const [],
+      isLoadingTodos: false,
+      selectedTodo: null,
     );
 
-    set(newState);
+    setState(newState);
   }
 }
