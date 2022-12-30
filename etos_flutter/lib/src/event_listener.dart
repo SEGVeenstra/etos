@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 
 import '../etos_flutter.dart';
 
-typedef EventListenerListener<T> = void Function(BuildContext context, T state);
+typedef EventListenerListener<T> = void Function(BuildContext context, T event);
 
 class EventListener<Tstate extends Object> extends StatefulWidget {
   const EventListener({
