@@ -27,20 +27,26 @@ typedef StateSetter<T> = void Function(T newState);
 
 class Etos<Tstate extends Object> {
   final _eventHandlers = <Type, EtosHandler<Tstate, Object>>{};
-  final _states = BehaviorSubject<Tstate>();
-  final _events = StreamController<Object>();
+  final _statesController = BehaviorSubject<Tstate>();
+  final _eventsController = StreamController<Object>();
+
+  late final Stream<Tstate> _statesStream;
+  late final Stream<Object> _eventsStream;
 
   /// A stream with the states
   ///
   /// On listening will give you the current state
-  Stream<Tstate> get states => _states.stream..asBroadcastStream();
-  Stream<Object> get events => _events.stream..asBroadcastStream();
+  Stream<Tstate> get states => _statesStream;
+  Stream<Object> get events => _eventsStream;
 
-  Tstate get state => _states.value;
+  Tstate get state => _statesController.value;
 
   Etos({required Tstate state}) {
+    _statesStream = _statesController.stream.asBroadcastStream();
+    _eventsStream = _eventsController.stream.asBroadcastStream();
+
     _logger.info('Creeated with initial state:\n$state');
-    _states.add(state);
+    _statesController.add(state);
   }
 
   void on<Tevent extends Object>(EtosHandler<Tstate, Tevent> handler) {
@@ -57,7 +63,7 @@ class Etos<Tstate extends Object> {
 
   void dispatch(Object event) async {
     _logger.info('dispatched event\n$event');
-    _events.add(event);
+    _eventsController.add(event);
 
     final handler = _eventHandlers[event.runtimeType];
 
@@ -74,7 +80,7 @@ class Etos<Tstate extends Object> {
   }
 
   void _setState(newState) {
-    _states.add(newState);
+    _statesController.add(newState);
     _logger.info('state updated\n$newState');
   }
 }
