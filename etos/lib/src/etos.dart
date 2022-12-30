@@ -62,7 +62,8 @@ class Etos<Tstate extends Object> {
     final handler = _eventHandlers[event.runtimeType];
 
     if (handler == null) {
-      throw 'No handler found for events of type ${event.runtimeType}!';
+      _logger.info('No handler found for events of type ${event.runtimeType}!');
+      return;
     }
 
     await handler.call(
