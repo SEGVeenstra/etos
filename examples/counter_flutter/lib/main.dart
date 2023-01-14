@@ -119,13 +119,11 @@ class MyHomePage extends StatelessWidget {
             const SizedBox(height: 8),
             FloatingActionButton(
               // Or if you are using EtosProvider you can also get it from scope.
-              // Note that you dont have to pass in a Type parameter when you
-              // just want to dispatch an event.
+              // The easiest way is to use the BuildContext extensions as shown below.
               //
-              // You can also use the extension on `BuildContext`:
-              // `context.dispatch(Event)`
-              onPressed: () =>
-                  EtosProvider.of(context).dispatch(DecrementEvent()),
+              // You could also call EtosProvider directly:
+              // `EtosProvider.of(context).dispatch(DecrementEvent())`
+              onPressed: () => context.dispatch(DecrementEvent()),
               tooltip: 'Decrement',
               child: const Icon(Icons.remove),
             ),
