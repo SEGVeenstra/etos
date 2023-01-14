@@ -1,0 +1,6 @@
+# melos_managed_dependency_overrides: etos,etos_flutter
+dependency_overrides:
+  etos:
+    path: ../../etos
+  etos_flutter:
+    path: ../../etos_flutter

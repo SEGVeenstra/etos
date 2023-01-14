@@ -12,8 +12,7 @@ dependencies:
 
   cupertino_icons: ^1.0.2
 
-  etos_flutter: 
-    path: ../../etos_flutter
+  etos_flutter: 0.0.1
 
 dev_dependencies:
   flutter_test:

@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/examples/counter_cli/melos_counter_cli.iml" filepath="$PROJECT_DIR$/examples/counter_cli/melos_counter_cli.iml" />
+      <module fileurl="file://$PROJECT_DIR$/examples/counter_flutter/melos_counter_flutter.iml" filepath="$PROJECT_DIR$/examples/counter_flutter/melos_counter_flutter.iml" />
       <module fileurl="file://$PROJECT_DIR$/etos/melos_etos.iml" filepath="$PROJECT_DIR$/etos/melos_etos.iml" />
       <module fileurl="file://$PROJECT_DIR$/etos_flutter/melos_etos_flutter.iml" filepath="$PROJECT_DIR$/etos_flutter/melos_etos_flutter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/examples/todo_flutter/melos_todo_flutter.iml" filepath="$PROJECT_DIR$/examples/todo_flutter/melos_todo_flutter.iml" />
       <module fileurl="file://$PROJECT_DIR$/melos_etos.iml" filepath="$PROJECT_DIR$/melos_etos.iml" />
     </modules>
   </component>

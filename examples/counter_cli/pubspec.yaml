@@ -8,8 +8,7 @@ environment:
 
 
 dependencies:
-  etos:
-    path: ../../etos
+  etos: 0.0.1
   logging: any
 
 dev_dependencies:

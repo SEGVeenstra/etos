@@ -3,6 +3,9 @@ name: etos
 packages:
   - etos
   - etos_flutter
+  - examples/counter_cli
+  - examples/counter_flutter
+  - examples/todo_flutter
 
 command:
   bootstrap:

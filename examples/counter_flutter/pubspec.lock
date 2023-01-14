@@ -44,12 +44,12 @@ packages:
     source: hosted
     version: "1.0.5"
   etos:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       path: "../../etos"
       relative: true
     source: path
-    version: "1.0.0"
+    version: "0.0.1-pre.1"
   etos_flutter:
     dependency: "direct main"
     description:
@@ -186,4 +186,3 @@ packages:
     version: "2.1.2"
 sdks:
   dart: ">=2.17.6 <3.0.0"
-  flutter: ">=1.17.0"

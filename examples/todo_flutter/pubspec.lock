@@ -51,14 +51,12 @@ packages:
     source: hosted
     version: "2.0.5"
   etos:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      path: etos
-      ref: HEAD
-      resolved-ref: "2fb14ac94ddf887f336a1a0365f15c8fc39231a4"
-      url: "git@github.com:SEGVeenstra/etos.git"
-    source: git
-    version: "1.0.0"
+      path: "../../etos"
+      relative: true
+    source: path
+    version: "0.0.1-pre.1"
   etos_flutter:
     dependency: "direct main"
     description:
@@ -195,4 +193,3 @@ packages:
     version: "2.1.2"
 sdks:
   dart: ">=2.18.1 <3.0.0"
-  flutter: ">=1.17.0"

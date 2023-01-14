@@ -1,0 +1,4 @@
+# melos_managed_dependency_overrides: etos
+dependency_overrides:
+  etos:
+    path: ../../etos
