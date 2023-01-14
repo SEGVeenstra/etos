@@ -11,12 +11,12 @@ class EtosProvider<Tstate extends Object> extends StatelessWidget {
   final Etos<Tstate> etos;
   final Widget child;
 
-  static Etos of(BuildContext context) {
+  static Etos<T> of<T extends Object>(BuildContext context) {
     final provider =
         context.dependOnInheritedWidgetOfExactType<_InheritedEtos>();
     if (provider == null) throw 'Provider not found for type!';
 
-    return provider.etos;
+    return provider.etos as Etos<T>;
   }
 
   @override
@@ -37,4 +37,9 @@ class _InheritedEtos extends InheritedWidget {
   bool updateShouldNotify(covariant InheritedWidget oldWidget) {
     return false;
   }
+}
+
+extension EtosExt on BuildContext {
+  void dispatch(Object event) => EtosProvider.of(this).dispatch(event);
+  Etos<T> of<T extends Object>() => EtosProvider.of<T>(this);
 }

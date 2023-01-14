@@ -49,7 +49,7 @@ packages:
       path: "../../etos"
       relative: true
     source: path
-    version: "0.0.1-pre.1"
+    version: "0.0.1"
   etos_flutter:
     dependency: "direct main"
     description:
