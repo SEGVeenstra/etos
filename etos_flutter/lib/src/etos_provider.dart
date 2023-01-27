@@ -11,9 +11,11 @@ class EtosProvider<Tstate extends Object> extends StatelessWidget {
   final Etos<Tstate> etos;
   final Widget child;
 
+  /// Get the Etos from the EtosProvider.
+  ///
+  /// This will NOT trigger any rebuilds! For that use StateBuilder.
   static Etos<T> of<T extends Object>(BuildContext context) {
-    final provider =
-        context.dependOnInheritedWidgetOfExactType<_InheritedEtos>();
+    final provider = context.findAncestorWidgetOfExactType<_InheritedEtos>();
     if (provider == null) throw 'Provider not found for type!';
 
     return provider.etos as Etos<T>;
