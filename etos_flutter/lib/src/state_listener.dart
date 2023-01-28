@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import '../etos_flutter.dart';
 
 typedef Listener<T> = void Function(
-    BuildContext context, T? oldValue, T newValue);
+    BuildContext context, T oldValue, T newValue);
 
 class StateListener<Tstate extends Object, Tvalue extends Object?>
     extends StatefulWidget {
@@ -30,7 +30,8 @@ class _StateListenerState<Tstate extends Object, Tvalue extends Object?>
     extends State<StateListener<Tstate, Tvalue>> {
   StreamSubscription<Tvalue>? sub;
 
-  Tvalue? currentValue;
+  late Tvalue currentValue =
+      widget.converter((widget.etos ?? EtosProvider.of(context)).state);
 
   @override
   void didChangeDependencies() {
