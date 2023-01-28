@@ -44,11 +44,12 @@ class AuthenticatedState extends AppState {
   AppState copyWith({
     List<Todo>? todos,
     Todo? selectedTodo,
+    bool? isLoadingTodos,
   }) =>
       AuthenticatedState(
         userName: userName,
         todos: todos ?? this.todos,
-        isLoadingTodos: isLoadingTodos,
+        isLoadingTodos: isLoadingTodos ?? this.isLoadingTodos,
         selectedTodo: selectedTodo ?? this.selectedTodo,
       );
 

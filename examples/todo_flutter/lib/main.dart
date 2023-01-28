@@ -2,10 +2,12 @@ import 'package:etos_flutter/etos_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:todo_flutter/event_handlers/add_todo_event_handler.dart';
+import 'package:todo_flutter/event_handlers/load_todos_event_handler.dart';
 import 'package:todo_flutter/event_handlers/login_handler.dart';
 import 'package:todo_flutter/event_handlers/logout_handler.dart';
 import 'package:todo_flutter/event_handlers/unselect_todo_event_handler.dart';
 import 'package:todo_flutter/events/add_todo_event.dart';
+import 'package:todo_flutter/events/load_todos_event.dart';
 import 'package:todo_flutter/events/login_event.dart';
 import 'package:todo_flutter/events/logout_event.dart';
 import 'package:todo_flutter/events/select_todo_event.dart';
@@ -24,7 +26,8 @@ final etos = Etos<AppState>(
   ..on<LogoutEvent>(LogoutHandler())
   ..on<AddTodoEvent>(AddTodoEventHandler())
   ..on<SelectTodoEvent>(SelectTodoEventHandler())
-  ..on<UnselectTodoEvent>(UnselectTodoEventHandler());
+  ..on<UnselectTodoEvent>(UnselectTodoEventHandler())
+  ..on<LoadTodosEvent>(LoadTodosEventHandler());
 
 void main() {
   Logger.root.onRecord.listen((event) {

@@ -30,7 +30,7 @@ class _EventListenerState<Tstate extends Object>
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    final etos = (widget.etos ?? EtosProvider.of(context)) as Etos<Tstate>;
+    final etos = widget.etos ?? EtosProvider.of(context);
     sub?.cancel();
     sub = etos.events.listen(
       (event) => widget.listener(context, event),

@@ -36,7 +36,7 @@ class _StateListenerState<Tstate extends Object, Tvalue extends Object?>
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    final etos = (widget.etos ?? EtosProvider.of(context)) as Etos<Tstate>;
+    final etos = widget.etos ?? EtosProvider.of(context);
     sub?.cancel();
     sub = etos.states.map((state) => widget.converter(state)).listen(
       (newValue) {
