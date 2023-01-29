@@ -1,7 +1,7 @@
 name: etos
 description: 
   An event-driven state management solution.
-version: 0.0.1
+version: 0.0.2
 repository: https://github.com/SEGVeenstra/etos
 # homepage: https://www.example.com
 
