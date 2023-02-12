@@ -5,8 +5,7 @@ import '../events/select_todo_event.dart';
 
 class SelectTodoEventHandler extends EventHandler<AppState, SelectTodoEvent> {
   @override
-  void call(SelectTodoEvent event, StateGetter<AppState> getState,
-      StateSetter<AppState> setState) {
+  void call(SelectTodoEvent event) {
     final currentState = getState();
 
     // This can only be done by an authenticated user

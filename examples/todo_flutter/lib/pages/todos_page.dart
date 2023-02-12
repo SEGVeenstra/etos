@@ -48,10 +48,11 @@ class _TodosPageState extends State<TodosPage> {
               );
             }
 
-            return StateBuilder<AppState, List<Todo>?>(
-              converter: (state) => state.tryCast<AuthenticatedState>()?.todos,
+            return StateBuilder<AppState, List<Todo>>(
+              buildWhen: (state) => state is AuthenticatedState,
+              converter: (state) => state.cast<AuthenticatedState>().todos,
               builder: (context, todos) => ListView(
-                children: (todos ?? [])
+                children: (todos)
                     .map(
                       (todo) => ListTile(
                         title: Text(todo.description),

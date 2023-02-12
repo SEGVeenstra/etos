@@ -1,6 +1,6 @@
 name: etos_flutter
 description: Helper widgets for Etos
-version: 0.0.3
+version: 0.1.0
 repository: https://github.com/SEGVeenstra/etos
 
 environment:
@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  etos: ^0.0.2
+  etos: ^0.1.0
 
 dev_dependencies:
   flutter_test:
