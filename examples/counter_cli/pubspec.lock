@@ -7,7 +7,7 @@ packages:
       path: "../../etos"
       relative: true
     source: path
-    version: "0.0.2"
+    version: "0.1.0"
   lints:
     dependency: "direct dev"
     description:

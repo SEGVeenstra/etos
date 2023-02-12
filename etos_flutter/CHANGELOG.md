@@ -2,6 +2,7 @@
 
 - Add `buildWhen` to `StateBuilder`.
 - Update dependency on `etos`.
+- Add `context.state<T>(BuildContext)` to easily access state.
 
 ## 0.0.3
 

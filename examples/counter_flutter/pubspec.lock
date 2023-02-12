@@ -49,14 +49,14 @@ packages:
       path: "../../etos"
       relative: true
     source: path
-    version: "0.0.2"
+    version: "0.1.0"
   etos_flutter:
     dependency: "direct main"
     description:
       path: "../../etos_flutter"
       relative: true
     source: path
-    version: "0.0.3"
+    version: "0.1.0"
   fake_async:
     dependency: transitive
     description:
