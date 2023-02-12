@@ -2,6 +2,7 @@
 
 - Move `setState` and `getState` to `EventHandler` methods.
 - Add `callWhen` to allow `EventHandlers` to only be called in certain conditions.
+- Add `dispatch` to `EventHandler` to easily dispatch new `Events`.
 - Remove option to use functions as `EventHandlers`.
 
 ## 0.0.2

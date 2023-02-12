@@ -28,6 +28,11 @@ abstract class EventHandler<Tstate extends Object, Tevent> {
     _etos!._setState(state);
   }
 
+  void dispatch(Object event) {
+    assert(_etos != null, _notLinkedError);
+    _etos!.dispatch(event);
+  }
+
   /// Decide if this EventHandler can be called based on the current state.
   ///
   /// Return true if you want this EventHandler to be called, else false.
