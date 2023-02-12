@@ -5,28 +5,39 @@ import 'package:rxdart/subjects.dart';
 
 final _logger = Logger('Etos');
 
-abstract class EventHandler<Tstate, Tevent> {
-  const EventHandler();
+const _notLinkedError = 'EventHandler not linked to Etos.'
+    'Are you trying to call it yourself?'
+    'EnentHandlers should only be called by Etos, please add this EventHandler to an Etos by using the Etos.on<Event>(EventHandler) method.';
 
-  FutureOr<void> call(
-    Tevent event,
-    StateGetter<Tstate> getState,
-    StateSetter<Tstate> setState,
-  );
+abstract class EventHandler<Tstate extends Object, Tevent> {
+  Etos<Tstate>? _etos;
+
+  EventHandler();
+
+  void _init(Etos<Tstate> etos) {
+    _etos = etos;
+  }
+
+  Tstate getState() {
+    assert(_etos != null, _notLinkedError);
+    return _etos!.state;
+  }
+
+  void setState(Tstate state) {
+    assert(_etos != null, _notLinkedError);
+    _etos!._setState(state);
+  }
+
+  /// Decide if this EventHandler can be called based on the current state.
+  ///
+  /// Return true if you want this EventHandler to be called, else false.
+  bool callWhen(Tstate state) => true;
+
+  FutureOr<void> call(Tevent event);
 }
 
-typedef EtosHandler<Tstate extends Object, Tevent extends Object>
-    = FutureOr<void> Function(
-  Tevent event,
-  StateGetter<Tstate> get,
-  StateSetter<Tstate> set,
-);
-
-typedef StateGetter<T> = T Function();
-typedef StateSetter<T> = void Function(T newState);
-
 class Etos<Tstate extends Object> {
-  final _eventHandlers = <Type, EtosHandler<Tstate, Object>>{};
+  final _eventHandlers = <Type, EventHandler<Tstate, Object>>{};
   final _statesController = BehaviorSubject<Tstate>();
   final _eventsController = StreamController<Object>();
 
@@ -49,15 +60,16 @@ class Etos<Tstate extends Object> {
     _statesController.add(state);
   }
 
-  void on<Tevent extends Object>(EtosHandler<Tstate, Tevent> handler) {
+  void on<Tevent extends Object>(EventHandler<Tstate, Tevent> handler) {
     if (_eventHandlers[Tevent] != null) {
       _logger.warning('Tried adding an EventHandler for $Tevent,'
           '\nbut an EventListener has already been registered for $Tevent');
       return;
     }
 
-    _eventHandlers[Tevent] =
-        (event, get, set) => handler(event as Tevent, get, set);
+    handler._init(this);
+
+    _eventHandlers[Tevent] = handler;
     _logger.info('Eventhandler added for $Tevent');
   }
 
@@ -70,13 +82,12 @@ class Etos<Tstate extends Object> {
     if (handler == null) {
       _logger.info('No handler found for events of type ${event.runtimeType}!');
       return;
+    } else if (!handler.callWhen(state)) {
+      _logger.info('Handler does not meet it\'s condition to run!');
+      return;
     }
 
-    await handler.call(
-      event,
-      () => state,
-      _setState,
-    );
+    await handler.call(event);
   }
 
   void _setState(newState) {

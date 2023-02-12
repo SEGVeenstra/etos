@@ -1,3 +1,8 @@
+## 0.1.0
+
+- Add `buildWhen` to `StateBuilder`.
+- Update dependency on `etos`.
+
 ## 0.0.3
 
 - Made old state non-nullable in StateListener.

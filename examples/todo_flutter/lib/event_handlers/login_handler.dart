@@ -3,9 +3,9 @@ import 'package:todo_flutter/events/login_event.dart';
 
 import '../state/app_state.dart';
 
-class LoginHandler {
-  void call(LoginEvent event, StateGetter<AppState> getState,
-      StateSetter<AppState> setState) async {
+class LoginHandler extends EventHandler<AppState, LoginEvent> {
+  @override
+  void call(LoginEvent event) async {
     var currentState = getState();
 
     // We first check if we are in an unauthenticated state

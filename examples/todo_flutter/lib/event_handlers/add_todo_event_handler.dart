@@ -5,8 +5,7 @@ import '../state/app_state.dart';
 
 class AddTodoEventHandler extends EventHandler<AppState, AddTodoEvent> {
   @override
-  void call(AddTodoEvent event, StateGetter<AppState> getState,
-      StateSetter<AppState> setState) {
+  void call(AddTodoEvent event) {
     final currentState = getState();
 
     // We can only add todos if we are authenticated, so let's check that first.

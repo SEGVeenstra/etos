@@ -9,16 +9,18 @@ class DecrementEvent {}
 // Create [EventHandlers]
 // EventHandlers are intended to contain the business logic of your application.
 
-// An [EventHandlers] can be a function:
-void increment(IncrementEvent event, StateGetter<int> get,
-        StateSetter<int> set) async =>
-    set(get() + 1);
-
-// Or even class:
-class DecrementHandler extends EventHandler<int, DecrementEvent> {
+// Extends the EventHandler class and pass the Tstate and Tevent type params
+class IncrementEventHandler extends EventHandler<int, IncrementEvent> {
   @override
-  void call(DecrementEvent event, StateGetter<int> getState,
-      StateSetter<int> setState) {
+  void call(IncrementEvent event) {
+    // Uses the setState and getState methods to work with state.
+    setState(getState() + 1);
+  }
+}
+
+class DecrementEventHandler extends EventHandler<int, DecrementEvent> {
+  @override
+  void call(DecrementEvent event) {
     setState(getState() - 1);
   }
 }
@@ -26,8 +28,8 @@ class DecrementHandler extends EventHandler<int, DecrementEvent> {
 // Create an [Etos] instance
 final etos = Etos(state: 0)
   // Add the [EventHandler]s for each event
-  ..on<IncrementEvent>(increment)
-  ..on<DecrementEvent>(DecrementHandler());
+  ..on<IncrementEvent>(IncrementEventHandler())
+  ..on<DecrementEvent>(DecrementEventHandler());
 
 void main() {
   runApp(const MyApp());
@@ -38,7 +40,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Optionally you can wrap your application in an EtosProvider.
+    // You can wrap your application in an EtosProvider.
     // This will make it possible to get the Etos from context using
     // EtosProvider.of(context) and it will
     // make the other convinient widgets like EtosBuilder find the Etos

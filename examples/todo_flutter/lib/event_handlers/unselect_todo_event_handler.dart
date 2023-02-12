@@ -5,12 +5,12 @@ import 'package:todo_flutter/state/app_state.dart';
 class UnselectTodoEventHandler
     extends EventHandler<AppState, UnselectTodoEvent> {
   @override
-  void call(UnselectTodoEvent event, StateGetter<AppState> getState,
-      StateSetter<AppState> setState) {
-    final currentState = getState();
+  bool callWhen(AppState state) => state is AuthenticatedState;
 
-    // This action can only be done when the user is authenticated.
-    if (currentState is! AuthenticatedState) return;
+  @override
+  void call(UnselectTodoEvent event) {
+    // We can force-cast the event because of the `callWhen` method.
+    final currentState = getState() as AuthenticatedState;
 
     setState(currentState.clearSelectedTodo());
   }

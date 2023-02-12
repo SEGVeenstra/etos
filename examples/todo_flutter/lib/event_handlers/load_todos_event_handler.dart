@@ -7,11 +7,7 @@ import 'package:todo_flutter/state/app_state.dart';
 
 class LoadTodosEventHandler extends EventHandler<AppState, LoadTodosEvent> {
   @override
-  FutureOr<void> call(
-    LoadTodosEvent event,
-    StateGetter<AppState> getState,
-    StateSetter<AppState> setState,
-  ) async {
+  FutureOr<void> call(LoadTodosEvent event) async {
     // get the current state
     final currentState = getState();
     if (currentState is! AuthenticatedState) return;
