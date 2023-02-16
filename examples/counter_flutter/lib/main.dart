@@ -32,7 +32,10 @@ final etos = Etos(state: 0)
   ..on<DecrementEvent>(DecrementEventHandler());
 
 void main() {
-  runApp(const MyApp());
+  runApp(EtosInspector(
+    etos: etos,
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
