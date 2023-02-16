@@ -34,7 +34,12 @@ void main() {
     debugPrint(event.toString());
   });
 
-  runApp(const MyApp());
+  runApp(
+    EtosInspector(
+      etos: etos,
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
