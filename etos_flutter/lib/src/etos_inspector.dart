@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 class EtosInspector<Tstate extends Object> extends StatefulWidget {
   final Widget child;
   final Etos<Tstate>? etos;
+  final bool enabled;
 
   const EtosInspector({
     super.key,
     required this.child,
     this.etos,
+    this.enabled = true,
   });
 
   @override
@@ -32,19 +34,20 @@ class _EtosInspectorState<Tstate extends Object>
       child: Stack(
         children: [
           Positioned.fill(child: widget.child),
-          if (_showInspector)
+          if (widget.enabled && _showInspector)
             Positioned.fill(
               child: IgnorePointer(
                 child: _InspectorOverlay<Tstate>(widget.etos),
               ),
             ),
-          Align(
-            alignment: Alignment.centerRight,
-            child: ElevatedButton(
-              onPressed: _toggleInspector,
-              child: const Text('I'),
+          if (widget.enabled)
+            Align(
+              alignment: Alignment.centerRight,
+              child: ElevatedButton(
+                onPressed: _toggleInspector,
+                child: const Text('I'),
+              ),
             ),
-          ),
         ],
       ),
     );

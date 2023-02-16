@@ -33,6 +33,7 @@ final etos = Etos(state: 0)
 
 void main() {
   runApp(EtosInspector(
+    enabled: true,
     etos: etos,
     child: const MyApp(),
   ));
