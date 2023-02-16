@@ -1,8 +1,8 @@
-Etos is an event-driven application management solution.
+Etos is an event-driven application state management solution, focussed on simplicity.
 
 ```
 NOTE:
-This package is still in development and I discourage anyone from using it in production production software!
+This package is still in development and I discourage anyone from using it in production software!
 
 BUT, if you're just going to experiment and need a quick and easy way to manage state, be my guest to use Etos. I would love to get your feedback!
 ```
@@ -51,12 +51,12 @@ Using `Etos` is easy. In the following sections I'll show you how to work with `
 
 You first need to think about what kind of state you want to manage. It can be a simple primitive, but for the avarage app that will not be enough. Therefor I suggest to start with creating an `Object`, which we conveniently call `AppState`.
 
-We will look at the counter app for this example. So our state needs an `int` field to keep track of the count.
+We will look at the Flutter counter app for this example. So our state needs an `int` field to keep track of the count.
 
 > TIP: Use the freezed package to make manipulating your state object easier.
 
 ```dart
-abstract class AppState {
+class AppState {
     final int counter;
 
     const AppState(this.count);
@@ -83,7 +83,7 @@ class IncrementEventHandler extends EventHandler<AppState,IncrementEvent> {
         final currentState = getState();
 
         // set a new state
-        setState(AppState(currentState + 1));
+        setState(AppState(currentState.counter + 1));
     }
 }
 ```
@@ -97,9 +97,49 @@ final etos = Etos(state: AppState(0));
 etos.on<IncrementEvent>(IncrementEventHandler());
 ```
 
+That's it, we've now setup `Etos` for our project!
+
 ## Usage
 
-Coming soon.
+In the previous section we've setup `Etos`. In this section I will show you how to use it.
+
+### Using Etos
+
+Our `Etos` instance exposes two `Stream`s that you can use in your interface.
+
+```dart
+// Use the `states` stream to listen for state updates
+etos.states.listen((state) => print('Current count: ${state.counter}'));
+
+// Use the `events` stream to listen for events that are being dispatched
+etos.events.listen((event) => print('Event dispatched: $event'));
+```
+
+Use `.states` for persistent changes, like a our counter. If you want to show a one-time message, like a toast or snackbar when something has happend which has no impact on the state, you can use `.events`.
+
+### Dispatching events
+
+Nothing is going to happen as long as we're not dispatching any **events**. To increment our counter, all we have to do is dispatch the `IncrementEvent`.
+
+```dart
+etos.dispatch(IncrementEvent());
+```
+
+That's it, that's all you need to know to get started with `Etos`.
+
+### Logging
+
+On of the mayor benefits of being an event-driven solution, is that all the information is passing to a single object.
+
+Both events and states are managed by `Etos`, which means `Etos` knows everything that's going on.
+
+This makes it very convinient for `Etos` to log all this information. for this, `Etos` is using the `logging` package. All you have to do is setup logging (or if you already have it setup, it will automatically work).
+
+```dart
+Logger.root.onRecord.listen((log) {
+    debugPrint(log.toString());
+  });
+```
 
 ## Additional information
 
