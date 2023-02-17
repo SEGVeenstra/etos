@@ -1,3 +1,7 @@
+## 0.1.1 (PROGRESS)
+
+- Fix context.state to return state and not Etos.
+
 ## 0.1.0
 
 - Add `buildWhen` to `StateBuilder`.

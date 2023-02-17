@@ -44,5 +44,5 @@ class _InheritedEtos extends InheritedWidget {
 extension EtosExt on BuildContext {
   void dispatch(Object event) => EtosProvider.of(this).dispatch(event);
   Etos<T> of<T extends Object>() => EtosProvider.of<T>(this);
-  Etos<T> state<T extends Object>() => EtosProvider.of<T>(this);
+  T state<T extends Object>() => EtosProvider.of<T>(this).state;
 }
