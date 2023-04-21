@@ -11,4 +11,9 @@ class FavoritableString {
         string: string,
         isFavorite: isFavorite ?? this.isFavorite,
       );
+
+  @override
+  String toString() {
+    return 'FavoritableString(String $string, isFavorite: $isFavorite)';
+  }
 }

@@ -5,13 +5,7 @@ class AppState {
   final List<FavoritableString> favorites;
 
   const AppState({
-    this.all = const [
-      FavoritableString(string: 'One'),
-      FavoritableString(string: 'Two'),
-      FavoritableString(string: 'Three'),
-      FavoritableString(string: 'Four'),
-      FavoritableString(string: 'Five'),
-    ],
+    this.all = const [],
     this.favorites = const [],
   });
 
@@ -23,4 +17,9 @@ class AppState {
         all: all ?? this.all,
         favorites: favorites ?? this.favorites,
       );
+
+  @override
+  String toString() {
+    return 'AppState(\nall: $all,\nfavorites: $favorites)';
+  }
 }

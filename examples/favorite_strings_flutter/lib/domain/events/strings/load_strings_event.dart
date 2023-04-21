@@ -1,0 +1,3 @@
+class LoadStringsEvent {
+  const LoadStringsEvent();
+}
