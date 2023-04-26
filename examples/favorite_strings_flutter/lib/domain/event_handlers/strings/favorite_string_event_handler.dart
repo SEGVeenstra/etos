@@ -26,9 +26,15 @@ class FavoriteStringEventHandler
     // Error handling is skipped so we asume this always is succesful
     await _repository.update(event.string, true);
 
-    // Becasue the call is always succesful we can update the state.
+    // Because the call is always succesful we can update the state.
     final newAll = [...currentAll].replaceString(newValue);
-    final newFavorites = [...currentFavorites, newValue];
+
+    final List<FavoritableString> newFavorites;
+    if (!currentFavorites.any((element) => element.string == event.string)) {
+      newFavorites = [...currentFavorites, newValue];
+    } else {
+      newFavorites = currentFavorites;
+    }
 
     setState(getState().copyWith(
       all: newAll,
