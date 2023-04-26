@@ -31,7 +31,7 @@ class _StringsPageState extends State<StringsPage> {
           if (event is OnUnfavoriteStringEvent) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(event.string),
+                content: Text('You\'ve unfavorited "${event.string}"'),
                 action: SnackBarAction(
                   label: 'Undo',
                   onPressed: () =>
